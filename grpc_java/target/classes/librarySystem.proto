@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package helloworld;
+
+option java_package = "com.example.helloworld";
+option java_outer_classname = "HelloWorldProto";
+
+service Greeter {
+  rpc SayHello (HelloRequest) returns (HelloReply);
+}
+
+message HelloRequest {
+  int32 arg1 = 1;
+  int32 arg2 = 2;
+}
+
+message HelloReply {
+  int32 answer = 1;
+}

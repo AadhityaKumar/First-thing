@@ -1,0 +1,29 @@
+from concurrent import futures
+import logging
+
+import grpc
+import librarySystem_pb2
+import librarySystem_pb2_grpc
+
+
+class Greeter(librarySystem_pb2_grpc.GreeterServicer):
+    def SayHello(self, request, context):
+        return librarySystem_pb2.HelloReply(        
+        answer=request.arg1 + request.arg2
+        )
+    
+
+
+def serve():
+    port = "50051"
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    librarySystem_pb2_grpc.add_GreeterServicer_to_server(Greeter(), server)
+    server.add_insecure_port("[::]:" + port)
+    server.start()
+    print("Server started, listening on " + port)
+    server.wait_for_termination()
+
+
+if __name__ == "__main__":
+    logging.basicConfig()
+    serve()
