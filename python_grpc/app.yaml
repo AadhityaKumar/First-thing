@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sum-server
+  labels:
+    app: sum-server
+spec:
+  selector:
+    matchLabels:
+      app: sum-server
+  template:
+    metadata:
+      labels:
+        app: sum-server
+    spec:
+      nodeName: multinode-demo-m02
+      containers:
+      - name: sum
+        image: aadhityakumar/grpc-server:latest
+        ports:
+            - containerPort: 50051
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sum-server
+spec:
+  type: ClusterIP
+  selector:
+    app: sum-server
+  ports:
+    - protocol: TCP
+      port: 50051
+      targetPort: 50051
+
