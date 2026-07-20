@@ -1,0 +1,49 @@
+Aadhitya Kumar
+1001918897
+1/26/2026
+
+The client and server files of the java version can be found in grpc_java\src\main\java\com\example\helloworld. They are HelloWorldClient.java and HelloWorldServer.java.
+The client and server files of the python version can be found in python_grpc. They are library_client.py and library_server.py.
+The proto file is in grpc_java\src\main\proto and python_grpc.
+
+The function of this server-client system is that the client will give two integers to the server, and the server will return their sum.
+
+The two numbers to be added can be changed on lines 19 and 20 for the Java client and line 17 for the python client.
+
+The following commands were run on powershell on Windows 11.
+
+To run the Java server:
+
+cd grpc_java
+mvn clean install
+docker build -t grpc-java-server -f Dockerfile_server .
+docker network create grpc-net
+docker run -d --name grpc-server --network grpc-net grpc-java-server
+
+To run the Java client:
+
+cd grpc_java
+mvn clean install
+docker build -t grpc-java-client -f Dockerfile_client .
+docker run --rm --network grpc-net grpc-java-client
+
+To run the python server:
+
+cd python_grpc
+docker build -t grpc-server -f Dockerfile_server .
+docker network create grpc-net
+docker run -d --name grpc-server-python --network grpc-net grpc-server-python
+
+To run python client:
+
+cd python_grpc
+docker build -t grpc-client -f Dockerfile_client .
+docker run --rm --network grpc-net grpc-client
+
+In order to run another server after running one:
+
+docker ps
+docker rm -f <the-container-id>
+
+External sources:
+https://www.youtube.com/playlist?list=PLI5t0u6ye3FGXJMh5kU2RvN0xrul67p7R
